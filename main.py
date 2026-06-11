@@ -130,7 +130,7 @@ btn_play_y = ALTO - 150
 play_button_rect = Rect(btn_play_x, btn_play_y, btn_ancho, btn_alto)
 
 # Botones de Fin de Juego (Reiniciar y Menú uno al lado del otro)
-distancia_botones = 40 # Espacio de separación entre ambos
+distancia_botones = 40 
 total_ancho_botones = (btn_ancho * 2) + distancia_botones
 start_x = (ANCHO // 2) - (total_ancho_botones // 2)
 
@@ -151,7 +151,6 @@ finish = False
 ganador = 0 
 clock = time.Clock()
 
-# Función auxiliar para restablecer por completo los valores de una nueva partida
 def reset_partida():
     player1.lives = 3
     player2.lives = 3
@@ -172,23 +171,21 @@ while run:
             run = False
         
         if e.type == MOUSEBUTTONDOWN and e.button == 1:
-            # Interacción en la pantalla de inicio (Menú)
             if menu:
                 if play_button_rect.collidepoint(mouse_pos):
                     menu = False 
 
-            # Interacción en la pantalla de Fin de Juego (Victoria)
             elif finish:
                 if btn_restart_rect.collidepoint(mouse_pos):
                     reset_partida()
                     ganador = 0
-                    finish = False # Inicia la partida directamente
+                    finish = False 
                     
                 elif btn_menu_rect.collidepoint(mouse_pos):
                     reset_partida()
                     ganador = 0
                     finish = False
-                    menu = True # Regresa a la pantalla de inicio
+                    menu = True 
 
         if e.type == KEYDOWN:
             if not finish and not menu: 
@@ -201,12 +198,13 @@ while run:
     if menu:
         screen.blit(menu_background, (0, 0))
         
+        # Se removió border_radius para máxima compatibilidad
         if play_button_rect.collidepoint(mouse_pos):
-            draw.rect(screen, (220, 50, 50), play_button_rect, border_radius=15) 
+            draw.rect(screen, (220, 50, 50), play_button_rect) 
         else:
-            draw.rect(screen, (170, 30, 30), play_button_rect, border_radius=15) 
+            draw.rect(screen, (170, 30, 30), play_button_rect) 
             
-        draw.rect(screen, WHITE, play_button_rect, width=3, border_radius=15)
+        draw.rect(screen, WHITE, play_button_rect, 3)
         text_play = font_button.render("PLAY", True, WHITE)
         screen.blit(text_play, (play_button_rect.centerx - text_play.get_width() // 2, 
                                 play_button_rect.centery - text_play.get_height() // 2))
@@ -242,7 +240,7 @@ while run:
         screen.blit(txt_p1, (30, 25))
         screen.blit(txt_p2, (ANCHO - txt_p2.get_width() - 30, 25)) 
 
-    # --- 3. PANTALLAS DE FIN DE JUEGO (CON LOS DOS NUEVOS BOTONES) ---
+    # --- 3. PANTALLAS DE FIN DE JUEGO ---
     else:
         if ganador == 1:
             screen.blit(win_p1_img, (0, 0))
@@ -251,10 +249,10 @@ while run:
         
         # --- DIBUJAR BOTÓN REINICIAR ---
         if btn_restart_rect.collidepoint(mouse_pos):
-            draw.rect(screen, (50, 180, 50), btn_restart_rect, border_radius=15) # Verde brillante al pasar el mouse
+            draw.rect(screen, (50, 180, 50), btn_restart_rect) 
         else:
-            draw.rect(screen, (30, 130, 30), btn_restart_rect, border_radius=15) # Verde base
-        draw.rect(screen, WHITE, btn_restart_rect, width=3, border_radius=15)
+            draw.rect(screen, (30, 130, 30), btn_restart_rect) 
+        draw.rect(screen, WHITE, btn_restart_rect, 3)
         
         text_restart = font_button.render("Reiniciar", True, WHITE)
         screen.blit(text_restart, (btn_restart_rect.centerx - text_restart.get_width() // 2, 
@@ -262,10 +260,10 @@ while run:
 
         # --- DIBUJAR BOTÓN MENÚ ---
         if btn_menu_rect.collidepoint(mouse_pos):
-            draw.rect(screen, (80, 80, 220), btn_menu_rect, border_radius=15) # Azul brillante al pasar el mouse
+            draw.rect(screen, (80, 80, 220), btn_menu_rect) 
         else:
-            draw.rect(screen, (50, 50, 160), btn_menu_rect, border_radius=15) # Azul base
-        draw.rect(screen, WHITE, btn_menu_rect, width=3, border_radius=15)
+            draw.rect(screen, (50, 50, 160), btn_menu_rect) 
+        draw.rect(screen, WHITE, btn_menu_rect, 3)
         
         text_menu = font_button.render("Menú", True, WHITE)
         screen.blit(text_menu, (btn_menu_rect.centerx - text_menu.get_width() // 2, 
